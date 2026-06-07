@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Code Review on File Edit",
+  "description": "Runs an automated code quality check after any source file is edited, reviewing for best practices, TypeScript correctness, and adherence to project conventions.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "finchat/src/**/*.ts",
+      "finchat/src/**/*.tsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A file was just edited. Please review the changed file for: 1) TypeScript type safety and correctness, 2) adherence to project conventions (auth guards, Firestore access only via src/lib/firestore.ts, imports using @/ alias, components wrapped in AppLayout), 3) proper use of Zustand stores, 4) any potential bugs or logic errors, 5) Tailwind/glass-morphism styling consistency. Report any issues found and suggest fixes if needed."
+  },
+  "workspaceFolderName": "FinChat",
+  "shortName": "code-review-on-edit"
+}

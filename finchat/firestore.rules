@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read/write their own profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Transactions — user-scoped
+    match /transactions/{docId} {
+      allow read, write: if request.auth != null
+        && (
+          (request.method == 'create' && request.resource.data.userId == request.auth.uid)
+          || (resource.data.userId == request.auth.uid)
+        );
+    }
+
+    // Budgets — user-scoped
+    match /budgets/{docId} {
+      allow read, write: if request.auth != null
+        && (
+          (request.method == 'create' && request.resource.data.userId == request.auth.uid)
+          || (resource.data.userId == request.auth.uid)
+        );
+    }
+
+    // Goals — user-scoped
+    match /goals/{docId} {
+      allow read, write: if request.auth != null
+        && (
+          (request.method == 'create' && request.resource.data.userId == request.auth.uid)
+          || (resource.data.userId == request.auth.uid)
+        );
+    }
+
+    // Notifications — user-scoped
+    match /notifications/{docId} {
+      allow read, write: if request.auth != null
+        && (
+          (request.method == 'create' && request.resource.data.userId == request.auth.uid)
+          || (resource.data.userId == request.auth.uid)
+        );
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
